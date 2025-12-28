@@ -15,6 +15,12 @@
     "dev:all:dev": "cross-env NODE_ENV=dev concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:dev\" \"cd services/driver-service && npm run dev:dev\" \"cd services/auth-service && npm run dev:dev\" \"cd services/ride-service && npm run dev:dev\" \"cd services/api-gateway && npm run dev:dev\"",
     "dev:all:uat": "cross-env NODE_ENV=uat concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:uat\" \"cd services/driver-service && npm run dev:uat\" \"cd services/auth-service && npm run dev:uat\" \"cd services/ride-service && npm run dev:uat\" \"cd services/api-gateway && npm run dev:uat\"",
     "dev:all:prd": "cross-env NODE_ENV=prd concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:prd\" \"cd services/driver-service && npm run dev:prd\" \"cd services/auth-service && npm run dev:prd\" \"cd services/ride-service && npm run dev:prd\" \"cd services/api-gateway && npm run dev:prd\"",
+    "uat:user": "cd services/user-service && npm run start:uat",
+    "uat:driver": "cd services/driver-service && npm run start:uat",
+    "uat:auth": "cd services/auth-service && npm run start:uat",
+    "uat:ride": "cd services/ride-service && npm run start:uat",
+    "uat:gateway": "cd services/api-gateway && npm run start:uat",
+    "uat:all": "cross-env NODE_ENV=uat concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"npm run uat:user\" \"npm run uat:driver\" \"npm run uat:auth\" \"npm run uat:ride\" \"npm run uat:gateway\"",
     "test:shared": "cd shared && npm test",
     "clean": "cd shared && npm run clean && cd ../services/user-service && rm -rf dist && cd ../driver-service && rm -rf dist && cd ../auth-service && rm -rf dist && cd ../ride-service && rm -rf dist && cd ../api-gateway && rm -rf dist"
   },
