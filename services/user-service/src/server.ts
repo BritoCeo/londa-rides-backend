@@ -33,10 +33,23 @@ function initializeFirestore(): Firestore | null {
           // Try parsing as JSON string first (for Render/cloud deployments)
           try {
             serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-          } catch {
+          } catch (parseError) {
             // Fallback to file path (for local development)
-            const serviceAccountPath = path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-            serviceAccount = require(serviceAccountPath);
+            // Only try file path if it looks like a file path (contains .json or /)
+            if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('.json') || 
+                process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('/') ||
+                process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('\\')) {
+              try {
+                const serviceAccountPath = path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+                serviceAccount = require(serviceAccountPath);
+              } catch (fileError) {
+                console.error('❌ Failed to load Firebase key from file path:', fileError);
+                throw parseError; // Re-throw original parse error
+              }
+            } else {
+              // Not a valid JSON string and not a file path
+              throw parseError;
+            }
           }
           initializeApp({
             credential: cert(serviceAccount),
