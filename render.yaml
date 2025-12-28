@@ -3,7 +3,7 @@ services:
   - type: web
     name: shared-build
     env: node
-    buildCommand: cd shared && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:shared
     startCommand: echo "Shared package built successfully"
     healthCheckPath: /
     envVars:
@@ -15,7 +15,7 @@ services:
     name: api-gateway
     env: node
     region: oregon
-    buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/api-gateway && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:all
     startCommand: cd services/api-gateway && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
@@ -51,7 +51,7 @@ services:
     name: auth-service
     env: node
     region: oregon
-    buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/auth-service && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:all
     startCommand: cd services/auth-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
@@ -71,7 +71,7 @@ services:
     name: user-service
     env: node
     region: oregon
-    buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/user-service && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:all
     startCommand: cd services/user-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
@@ -91,7 +91,7 @@ services:
     name: driver-service
     env: node
     region: oregon
-    buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/driver-service && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:all
     startCommand: cd services/driver-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
@@ -111,7 +111,7 @@ services:
     name: ride-service
     env: node
     region: oregon
-    buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/ride-service && npm install && npm run build
+    buildCommand: npm run install:all && npm run build:all
     startCommand: cd services/ride-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
