@@ -16,7 +16,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/api-gateway && npm install && npm run build
-    startCommand: cd services/api-gateway && npm run start:uat
+    startCommand: cd services/api-gateway && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -52,7 +52,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/auth-service && npm install && npm run build
-    startCommand: cd services/auth-service && npm run start:uat
+    startCommand: cd services/auth-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -72,7 +72,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/user-service && npm install && npm run build
-    startCommand: cd services/user-service && npm run start:uat
+    startCommand: cd services/user-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -92,7 +92,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/driver-service && npm install && npm run build
-    startCommand: cd services/driver-service && npm run start:uat
+    startCommand: cd services/driver-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -112,7 +112,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm install && cd shared && npm install && npm run build && cd .. && cd services/ride-service && npm install && npm run build
-    startCommand: cd services/ride-service && npm run start:uat
+    startCommand: cd services/ride-service && NODE_ENV=uat node dist/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
