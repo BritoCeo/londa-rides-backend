@@ -8,7 +8,7 @@ services:
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
 
   # API Gateway - Main Entry Point (Port 8000)
   - type: web
@@ -20,11 +20,11 @@ services:
       npm install
       cd shared && npm install && npm run build && cd ..
       cd services/api-gateway && npm install && npm run build
-    startCommand: cd services/api-gateway && npm run start:prd
+    startCommand: cd services/api-gateway && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
       - key: PORT
         value: 8000
       - key: USER_SERVICE_URL
@@ -60,11 +60,11 @@ services:
       npm install
       cd shared && npm install && npm run build && cd ..
       cd services/auth-service && npm install && npm run build
-    startCommand: cd services/auth-service && npm run start:prd
+    startCommand: cd services/auth-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
       - key: PORT
         value: 8001
       - key: JWT_SECRET
@@ -84,11 +84,11 @@ services:
       npm install
       cd shared && npm install && npm run build && cd ..
       cd services/user-service && npm install && npm run build
-    startCommand: cd services/user-service && npm run start:prd
+    startCommand: cd services/user-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
       - key: PORT
         value: 8002
       - key: FIREBASE_SERVICE_ACCOUNT_KEY
@@ -108,11 +108,11 @@ services:
       npm install
       cd shared && npm install && npm run build && cd ..
       cd services/driver-service && npm install && npm run build
-    startCommand: cd services/driver-service && npm run start:prd
+    startCommand: cd services/driver-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
       - key: PORT
         value: 8003
       - key: FIREBASE_SERVICE_ACCOUNT_KEY
@@ -132,11 +132,11 @@ services:
       npm install
       cd shared && npm install && npm run build && cd ..
       cd services/ride-service && npm install && npm run build
-    startCommand: cd services/ride-service && npm run start:prd
+    startCommand: cd services/ride-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
-        value: production
+        value: uat
       - key: PORT
         value: 8004
       - key: FIREBASE_SERVICE_ACCOUNT_KEY
