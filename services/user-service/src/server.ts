@@ -143,7 +143,7 @@ function startServer(): void {
   setupDependencies();
 
   const app = createApp();
-  const PORT = process.env.PORT || 8002;
+  const PORT = parseInt(process.env.PORT || '8002', 10);
   const EXPECTED_PORT = 8002;
   const logger = Container.resolve<ILogger>(TYPES.Logger);
   logger.info(`Starting User Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);

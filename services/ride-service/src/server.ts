@@ -25,7 +25,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'healthy', service: 'ride-service', timestamp: new Date().toISOString() });
 });
 
-const PORT = process.env.PORT || 8004;
+const PORT = parseInt(process.env.PORT || '8004', 10);
 const EXPECTED_PORT = 8004;
 logger.info(`Starting Ride Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
 

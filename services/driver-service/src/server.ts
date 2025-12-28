@@ -25,7 +25,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'healthy', service: 'driver-service', timestamp: new Date().toISOString() });
 });
 
-const PORT = process.env.PORT || 8003;
+const PORT = parseInt(process.env.PORT || '8003', 10);
 const EXPECTED_PORT = 8003;
 logger.info(`Starting Driver Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
 

@@ -25,7 +25,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'healthy', service: 'auth-service', timestamp: new Date().toISOString() });
 });
 
-const PORT = process.env.PORT || 8001;
+const PORT = parseInt(process.env.PORT || '8001', 10);
 const EXPECTED_PORT = 8001;
 logger.info(`Starting Auth Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
 

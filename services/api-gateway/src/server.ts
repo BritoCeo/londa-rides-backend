@@ -18,7 +18,7 @@ const logger = new StructuredLogger();
 const gateway = new ApiGateway(logger);
 const app = gateway.getApp();
 
-const PORT = process.env.PORT || 8000;
+const PORT = parseInt(process.env.PORT || '8000', 10);
 const EXPECTED_PORT = 8000;
 logger.info(`Starting API Gateway - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
 
