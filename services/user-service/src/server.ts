@@ -29,8 +29,15 @@ function initializeFirestore(): Firestore | null {
     if (getApps().length === 0) {
       if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
         try {
-          const serviceAccountPath = path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-          const serviceAccount = require(serviceAccountPath);
+          let serviceAccount;
+          // Try parsing as JSON string first (for Render/cloud deployments)
+          try {
+            serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+          } catch {
+            // Fallback to file path (for local development)
+            const serviceAccountPath = path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+            serviceAccount = require(serviceAccountPath);
+          }
           initializeApp({
             credential: cert(serviceAccount),
             projectId: process.env.FIREBASE_PROJECT_ID || 'londa-cd054',
