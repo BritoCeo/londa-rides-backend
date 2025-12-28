@@ -30,27 +30,45 @@ function initializeFirestore(): Firestore | null {
       if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
         try {
           let serviceAccount;
-          // Try parsing as JSON string first (for Render/cloud deployments)
-          try {
-            serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-          } catch (parseError) {
+          const keyValue = process.env.FIREBASE_SERVICE_ACCOUNT_KEY.trim();
+          
+          // Check if it looks like a JSON string (starts with { or [)
+          const looksLikeJson = keyValue.startsWith('{') || keyValue.startsWith('[');
+          
+          // Check if it looks like a file path (starts with /, ./, ../, or contains path separators)
+          const looksLikePath = keyValue.startsWith('/') || 
+                               keyValue.startsWith('./') || 
+                               keyValue.startsWith('../') ||
+                               keyValue.includes('\\') ||
+                               (keyValue.includes('/') && !looksLikeJson);
+          
+          if (looksLikeJson) {
+            // Try parsing as JSON string first (for Render/cloud deployments)
+            try {
+              serviceAccount = JSON.parse(keyValue);
+            } catch (parseError) {
+              console.error('❌ Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY as JSON:', parseError);
+              throw new Error('Invalid JSON format in FIREBASE_SERVICE_ACCOUNT_KEY');
+            }
+          } else if (looksLikePath) {
             // Fallback to file path (for local development)
-            // Only try file path if it looks like a file path (contains .json or /)
-            if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('.json') || 
-                process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('/') ||
-                process.env.FIREBASE_SERVICE_ACCOUNT_KEY.includes('\\')) {
-              try {
-                const serviceAccountPath = path.resolve(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-                serviceAccount = require(serviceAccountPath);
-              } catch (fileError) {
-                console.error('❌ Failed to load Firebase key from file path:', fileError);
-                throw parseError; // Re-throw original parse error
-              }
-            } else {
-              // Not a valid JSON string and not a file path
-              throw parseError;
+            try {
+              const serviceAccountPath = path.resolve(keyValue);
+              serviceAccount = require(serviceAccountPath);
+            } catch (fileError) {
+              console.error('❌ Failed to load Firebase key from file path:', fileError);
+              throw new Error(`Cannot load Firebase key from file path: ${keyValue}`);
+            }
+          } else {
+            // Try parsing as JSON anyway (might be a valid JSON string without leading brace)
+            try {
+              serviceAccount = JSON.parse(keyValue);
+            } catch (parseError) {
+              console.error('❌ FIREBASE_SERVICE_ACCOUNT_KEY does not appear to be valid JSON or a file path');
+              throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY must be either a valid JSON string or a file path');
             }
           }
+          
           initializeApp({
             credential: cert(serviceAccount),
             projectId: process.env.FIREBASE_PROJECT_ID || 'londa-cd054',
@@ -113,7 +131,20 @@ function startServer(): void {
 
   const app = createApp();
   const PORT = process.env.PORT || 8002;
+  const logger = Container.resolve<ILogger>(TYPES.Logger);
+  logger.info(`Starting User Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
   const server = http.createServer(app);
+
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    const logger = Container.resolve<ILogger>(TYPES.Logger);
+    if (error.code === 'EADDRINUSE') {
+      logger.error(`Port ${PORT} is already in use. Please check if another service is running on this port.`);
+      process.exit(1);
+    } else {
+      logger.error(`Server error: ${error.message}`, error);
+      process.exit(1);
+    }
+  });
 
   server.listen(PORT, () => {
     const logger = Container.resolve<ILogger>(TYPES.Logger);

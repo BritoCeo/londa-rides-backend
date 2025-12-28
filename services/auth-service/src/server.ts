@@ -26,7 +26,18 @@ app.get('/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 8001;
+logger.info(`Starting Auth Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
 const server = http.createServer(app);
+
+server.on('error', (error: NodeJS.ErrnoException) => {
+  if (error.code === 'EADDRINUSE') {
+    logger.error(`Port ${PORT} is already in use. Please check if another service is running on this port.`);
+    process.exit(1);
+  } else {
+    logger.error(`Server error: ${error.message}`, error);
+    process.exit(1);
+  }
+});
 
 server.listen(PORT, () => {
   logger.info(`Auth Service started on port ${PORT}`);
