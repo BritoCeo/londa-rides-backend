@@ -1,7 +1,6 @@
-import { injectable } from 'tsyringe';
-import { Firestore } from '@google-cloud/firestore';
-import { BaseRepository } from '@londa-rides/shared';
-import { ILogger } from '@londa-rides/shared';
+import { injectable, inject } from 'tsyringe';
+import { Firestore } from 'firebase-admin/firestore';
+import { BaseRepository, ILogger, TYPES } from '@londa-rides/shared';
 import { User } from '../models/User';
 import { IUserRepository } from './IUserRepository';
 
@@ -13,8 +12,8 @@ export class FirestoreUserRepository extends BaseRepository<User> implements IUs
   private readonly collectionName = 'users';
 
   constructor(
-    private readonly firestore: Firestore,
-    logger: ILogger
+    @inject(TYPES.Firestore) private readonly firestore: Firestore,
+    @inject(TYPES.Logger) logger: ILogger
   ) {
     super(logger);
   }

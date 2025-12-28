@@ -74,11 +74,16 @@ function setupDependencies(): void {
     logger.warn('Firestore not initialized - database operations will fail');
   }
 
-  // Register repositories
-  Container.register<IUserRepository>(TYPES.UserRepository, FirestoreUserRepository);
+  // Manually construct and register repository (tsyringe metadata issue workaround)
+  // Note: Repository requires Firestore, but we allow null for graceful degradation
+  const repositoryLogger = Container.resolve<ILogger>(TYPES.Logger);
+  const userRepository = new FirestoreUserRepository(
+    firestore as Firestore, // Type assertion needed since initializeFirestore can return null
+    repositoryLogger
+  );
+  Container.registerInstance<IUserRepository>(TYPES.UserRepository, userRepository);
 
   // Manually construct and register service (tsyringe metadata issue workaround)
-  const userRepository = Container.resolve<IUserRepository>(TYPES.UserRepository);
   const serviceLogger = Container.resolve<ILogger>(TYPES.Logger);
   const userService = new UserService(userRepository, serviceLogger);
   Container.registerInstance<IUserService>(TYPES.UserService, userService);
