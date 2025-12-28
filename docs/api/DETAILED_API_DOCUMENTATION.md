@@ -772,7 +772,7 @@ A Postman collection is available at:
 - Collection: `Londa_Rides_Microservices.postman_collection.json`
 - Environment: `Londa_Rides_Local.postman_environment.json`
 
-See [POSTMAN_COLLECTION_README.md](../../POSTMAN_COLLECTION_README.md) for details.
+See [POSTMAN_COLLECTION_README.md](./POSTMAN_COLLECTION_README.md) for details.
 
 ### Example cURL Requests
 
@@ -810,7 +810,7 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
 
 For issues or questions:
 1. Check the [Architecture Documentation](../architecture/DETAILED_ARCHITECTURE.md)
-2. Review the [Setup Guide](../../SETUP_AND_RUN_GUIDE.md)
+2. Review the [Setup Guide](../setup/SETUP_AND_RUN_GUIDE.md)
 3. Check service logs for detailed error messages
 
 ---

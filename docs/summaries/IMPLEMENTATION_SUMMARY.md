@@ -148,7 +148,7 @@ backend/
 
 - API Documentation: `docs/api/API_DOCUMENTATION.md`
 - Architecture: `docs/architecture/ARCHITECTURE.md`
-- Cleanup Guide: `CLEANUP_GUIDE.md`
+- Cleanup Guide: `docs/guides/CLEANUP_GUIDE.md`
 
 ---
 

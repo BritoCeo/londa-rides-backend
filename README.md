@@ -27,7 +27,7 @@ npm run build:shared
 
 ### 3. Configure Environment
 
-Create `.env` files for each service (see `SETUP_AND_RUN_GUIDE.md`)
+Create `.env` files for each service (see `docs/setup/SETUP_AND_RUN_GUIDE.md`)
 
 ### 4. Run All Services
 
@@ -71,10 +71,12 @@ backend/
 
 ## 📚 Documentation
 
-- **Setup Guide**: `SETUP_AND_RUN_GUIDE.md` - Complete setup instructions
+- **Setup Guide**: `docs/setup/SETUP_AND_RUN_GUIDE.md` - Complete setup instructions
+- **Quick Start**: `docs/setup/QUICK_START.md` - Quick start guide
 - **API Docs**: `docs/api/API_DOCUMENTATION.md` - API endpoints
 - **Architecture**: `docs/architecture/ARCHITECTURE.md` - Architecture details
-- **Implementation**: `IMPLEMENTATION_SUMMARY.md` - What was implemented
+- **Implementation**: `docs/summaries/IMPLEMENTATION_SUMMARY.md` - What was implemented
+- **Deployment**: `docs/deployment/RENDER_DEPLOYMENT_GUIDE.md` - Deployment guide
 
 ## 🧪 Testing
 
@@ -118,7 +120,7 @@ See `docs/api/API_DOCUMENTATION.md` for complete API reference.
 
 ## 📝 Environment Variables
 
-Each service requires its own `.env` file. See `SETUP_AND_RUN_GUIDE.md` for details.
+Each service requires its own `.env` file. See `docs/setup/SETUP_AND_RUN_GUIDE.md` for details.
 
 ## 🤝 Contributing
 
@@ -133,5 +135,5 @@ ISC
 
 ---
 
-For detailed setup instructions, see `SETUP_AND_RUN_GUIDE.md`
+For detailed setup instructions, see `docs/setup/SETUP_AND_RUN_GUIDE.md`
 

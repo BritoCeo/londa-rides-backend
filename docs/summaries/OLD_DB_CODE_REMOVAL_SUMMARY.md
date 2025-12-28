@@ -38,8 +38,8 @@
 **Note**: These test files are legacy and not used by the new microservices architecture. They can be removed if desired, but keeping them for reference is acceptable.
 
 ### Documentation (Historical reference)
-- `server/documentation/summaries/MIGRATION_SUMMARY.md` - Documents migration (keep)
-- `server/documentation/setup/firebase-migration-guide.md` - Migration guide (keep)
+- `docs/summaries/MIGRATION_SUMMARY.md` - Documents migration (keep)
+- `docs/setup/firebase-migration-guide.md` - Migration guide (keep)
 
 ## 🎯 Current State
 

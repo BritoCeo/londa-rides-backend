@@ -139,5 +139,5 @@ PS C:\MyProjects\londa-rides\Londa-Rides\backend> npm run dev:all
 
 - **Always run root scripts from `backend/` directory**
 - **Build shared package before running services**
-- **Each service needs its own `.env` file** (see SETUP_AND_RUN_GUIDE.md)
+- **Each service needs its own `.env` file** (see [Setup Guide](./SETUP_AND_RUN_GUIDE.md))
 

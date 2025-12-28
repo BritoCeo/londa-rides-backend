@@ -305,8 +305,8 @@ npm test
 
 - API Documentation: `docs/api/API_DOCUMENTATION.md`
 - Architecture Docs: `docs/architecture/ARCHITECTURE.md`
-- Environment Configuration: `ENVIRONMENT_CONFIG.md`
-- Cleanup Guide: `CLEANUP_GUIDE.md`
+- Environment Configuration: `docs/setup/ENVIRONMENT_CONFIG.md`
+- Cleanup Guide: `docs/guides/CLEANUP_GUIDE.md`
 
 ---
 

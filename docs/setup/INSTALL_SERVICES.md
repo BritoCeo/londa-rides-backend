@@ -40,5 +40,5 @@ Make sure you have `.env` files in each service directory with:
 - `FIREBASE_SERVICE_ACCOUNT_KEY` - Path to your service account key
 - `FIREBASE_PROJECT_ID` - Your Firebase project ID
 
-See `SETUP_AND_RUN_GUIDE.md` for complete environment variable setup.
+See [Setup Guide](./SETUP_AND_RUN_GUIDE.md) for complete environment variable setup.
 

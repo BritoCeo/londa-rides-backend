@@ -30,7 +30,7 @@ Fixed the StructuredLogger registration issue. The service should now start prop
 
 ## After Installing Dependencies
 
-1. **Create .env files** for each service (see SETUP_AND_RUN_GUIDE.md)
+1. **Create .env files** for each service (see [Setup Guide](../setup/SETUP_AND_RUN_GUIDE.md))
 
 2. **Run services:**
 ```powershell

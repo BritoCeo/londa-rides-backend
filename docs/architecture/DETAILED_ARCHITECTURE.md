@@ -620,6 +620,6 @@ The Londa Rides backend architecture provides a solid foundation for a scalable,
 
 For more information, see:
 - [API Documentation](../api/DETAILED_API_DOCUMENTATION.md)
-- [Environment Configuration](../../ENVIRONMENT_CONFIG.md)
-- [Setup Guide](../../SETUP_AND_RUN_GUIDE.md)
+- [Environment Configuration](../setup/ENVIRONMENT_CONFIG.md)
+- [Setup Guide](../setup/SETUP_AND_RUN_GUIDE.md)
 
