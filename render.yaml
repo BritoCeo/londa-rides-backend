@@ -1,0 +1,148 @@
+services:
+  # Shared Package Build (Background Service)
+  - type: web
+    name: shared-build
+    env: node
+    buildCommand: cd shared && npm install && npm run build
+    startCommand: echo "Shared package built successfully"
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # API Gateway - Main Entry Point (Port 8000)
+  - type: web
+    name: api-gateway
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      npm install
+      cd shared && npm install && npm run build && cd ..
+      cd services/api-gateway && npm install && npm run build
+    startCommand: cd services/api-gateway && npm run start:prd
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: USER_SERVICE_URL
+        fromService:
+          name: user-service
+          type: web
+          property: host
+      - key: DRIVER_SERVICE_URL
+        fromService:
+          name: driver-service
+          type: web
+          property: host
+      - key: AUTH_SERVICE_URL
+        fromService:
+          name: auth-service
+          type: web
+          property: host
+      - key: RIDE_SERVICE_URL
+        fromService:
+          name: ride-service
+          type: web
+          property: host
+      - key: LOG_LEVEL
+        value: info
+
+  # Auth Service (Internal - Port 8001)
+  - type: web
+    name: auth-service
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      npm install
+      cd shared && npm install && npm run build && cd ..
+      cd services/auth-service && npm install && npm run build
+    startCommand: cd services/auth-service && npm run start:prd
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8001
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: LOG_LEVEL
+        value: info
+
+  # User Service (Internal - Port 8002)
+  - type: web
+    name: user-service
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      npm install
+      cd shared && npm install && npm run build && cd ..
+      cd services/user-service && npm install && npm run build
+    startCommand: cd services/user-service && npm run start:prd
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8002
+      - key: FIREBASE_SERVICE_ACCOUNT_KEY
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: LOG_LEVEL
+        value: info
+
+  # Driver Service (Internal - Port 8003)
+  - type: web
+    name: driver-service
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      npm install
+      cd shared && npm install && npm run build && cd ..
+      cd services/driver-service && npm install && npm run build
+    startCommand: cd services/driver-service && npm run start:prd
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8003
+      - key: FIREBASE_SERVICE_ACCOUNT_KEY
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: LOG_LEVEL
+        value: info
+
+  # Ride Service (Internal - Port 8004)
+  - type: web
+    name: ride-service
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      npm install
+      cd shared && npm install && npm run build && cd ..
+      cd services/ride-service && npm install && npm run build
+    startCommand: cd services/ride-service && npm run start:prd
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8004
+      - key: FIREBASE_SERVICE_ACCOUNT_KEY
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: LOG_LEVEL
+        value: info
+
