@@ -122,7 +122,7 @@ If you prefer to create services manually (one at a time):
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `NODE_ENV` | `production` | Yes |
+| `NODE_ENV` | `uat` | Yes |
 | `PORT` | `8000` | Yes |
 | `USER_SERVICE_URL` | Auto-set by Render | Yes |
 | `DRIVER_SERVICE_URL` | Auto-set by Render | Yes |
@@ -134,7 +134,7 @@ If you prefer to create services manually (one at a time):
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `NODE_ENV` | `production` | Yes |
+| `NODE_ENV` | `uat` | Yes |
 | `PORT` | `8001` | Yes |
 | `JWT_SECRET` | Your secret key | **Yes** |
 | `JWT_EXPIRES_IN` | `24h` | No |
@@ -144,7 +144,7 @@ If you prefer to create services manually (one at a time):
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `NODE_ENV` | `production` | Yes |
+| `NODE_ENV` | `uat` | Yes |
 | `PORT` | `8002` | Yes |
 | `FIREBASE_SERVICE_ACCOUNT_KEY` | JSON content | **Yes** |
 | `FIREBASE_PROJECT_ID` | Your project ID | **Yes** |
@@ -154,7 +154,7 @@ If you prefer to create services manually (one at a time):
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `NODE_ENV` | `production` | Yes |
+| `NODE_ENV` | `uat` | Yes |
 | `PORT` | `8003` | Yes |
 | `FIREBASE_SERVICE_ACCOUNT_KEY` | JSON content | **Yes** |
 | `FIREBASE_PROJECT_ID` | Your project ID | **Yes** |
@@ -164,7 +164,7 @@ If you prefer to create services manually (one at a time):
 
 | Variable | Value | Required |
 |----------|-------|----------|
-| `NODE_ENV` | `production` | Yes |
+| `NODE_ENV` | `uat` | Yes |
 | `PORT` | `8004` | Yes |
 | `FIREBASE_SERVICE_ACCOUNT_KEY` | JSON content | **Yes** |
 | `FIREBASE_PROJECT_ID` | Your project ID | **Yes** |
