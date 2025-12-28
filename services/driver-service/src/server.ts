@@ -26,7 +26,16 @@ app.get('/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 8003;
+const EXPECTED_PORT = 8003;
 logger.info(`Starting Driver Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
+
+// Validate PORT configuration
+if (PORT !== EXPECTED_PORT) {
+  logger.warn(`⚠️  WARNING: Driver Service is using port ${PORT} but expected port ${EXPECTED_PORT}. This may indicate a configuration issue.`);
+  logger.warn(`   In Render, ensure the service has PORT=${EXPECTED_PORT} set in environment variables.`);
+  logger.warn(`   If running via 'npm run uat:all', services should be started individually with correct PORT values.`);
+}
+
 const server = http.createServer(app);
 
 server.on('error', (error: NodeJS.ErrnoException) => {

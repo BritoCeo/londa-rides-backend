@@ -31,6 +31,7 @@ function initializeFirestore(): Firestore | null {
         try {
           let serviceAccount;
           const keyValue = process.env.FIREBASE_SERVICE_ACCOUNT_KEY.trim();
+          const isCloudEnvironment = process.env.NODE_ENV === 'uat' || process.env.NODE_ENV === 'prd' || process.env.NODE_ENV === 'production';
           
           // Check if it looks like a JSON string (starts with { or [)
           const looksLikeJson = keyValue.startsWith('{') || keyValue.startsWith('[');
@@ -42,6 +43,14 @@ function initializeFirestore(): Firestore | null {
                                keyValue.includes('\\') ||
                                (keyValue.includes('/') && !looksLikeJson);
           
+          // In cloud environments, reject file paths and require JSON
+          if (isCloudEnvironment && looksLikePath) {
+            console.error('❌ FIREBASE_SERVICE_ACCOUNT_KEY contains a file path, but file paths are not supported in cloud environments (uat/prd/production)');
+            console.error('   Please set FIREBASE_SERVICE_ACCOUNT_KEY to the JSON content of your service account key file.');
+            console.error('   In Render: Go to your service → Environment → Set FIREBASE_SERVICE_ACCOUNT_KEY to the entire JSON content as a string.');
+            throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY must be JSON content in cloud environments, not a file path');
+          }
+          
           if (looksLikeJson) {
             // Try parsing as JSON string first (for Render/cloud deployments)
             try {
@@ -51,7 +60,11 @@ function initializeFirestore(): Firestore | null {
               throw new Error('Invalid JSON format in FIREBASE_SERVICE_ACCOUNT_KEY');
             }
           } else if (looksLikePath) {
-            // Fallback to file path (for local development)
+            // Fallback to file path (for local development only)
+            if (isCloudEnvironment) {
+              // This shouldn't happen due to check above, but defensive coding
+              throw new Error('File paths are not supported in cloud environments');
+            }
             try {
               const serviceAccountPath = path.resolve(keyValue);
               serviceAccount = require(serviceAccountPath);
@@ -131,8 +144,17 @@ function startServer(): void {
 
   const app = createApp();
   const PORT = process.env.PORT || 8002;
+  const EXPECTED_PORT = 8002;
   const logger = Container.resolve<ILogger>(TYPES.Logger);
   logger.info(`Starting User Service - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
+  
+  // Validate PORT configuration
+  if (PORT !== EXPECTED_PORT) {
+    logger.warn(`⚠️  WARNING: User Service is using port ${PORT} but expected port ${EXPECTED_PORT}. This may indicate a configuration issue.`);
+    logger.warn(`   In Render, ensure the service has PORT=${EXPECTED_PORT} set in environment variables.`);
+    logger.warn(`   If running via 'npm run uat:all', services should be started individually with correct PORT values.`);
+  }
+  
   const server = http.createServer(app);
 
   server.on('error', (error: NodeJS.ErrnoException) => {

@@ -19,7 +19,16 @@ const gateway = new ApiGateway(logger);
 const app = gateway.getApp();
 
 const PORT = process.env.PORT || 8000;
+const EXPECTED_PORT = 8000;
 logger.info(`Starting API Gateway - PORT from env: ${process.env.PORT || 'not set'}, using: ${PORT}`);
+
+// Validate PORT configuration
+if (PORT !== EXPECTED_PORT) {
+  logger.warn(`⚠️  WARNING: API Gateway is using port ${PORT} but expected port ${EXPECTED_PORT}. This may indicate a configuration issue.`);
+  logger.warn(`   In Render, ensure the service has PORT=${EXPECTED_PORT} set in environment variables.`);
+  logger.warn(`   If running via 'npm run uat:all', services should be started individually with correct PORT values.`);
+}
+
 const server = http.createServer(app);
 
 server.on('error', (error: NodeJS.ErrnoException) => {
