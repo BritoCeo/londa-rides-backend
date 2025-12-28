@@ -16,7 +16,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm run install:all && npm run build:all
-    startCommand: cd services/api-gateway && NODE_ENV=uat node dist/server.js
+    startCommand: cd services/api-gateway && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -52,7 +52,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm run install:all && npm run build:all
-    startCommand: cd services/auth-service && NODE_ENV=uat node dist/server.js
+    startCommand: cd services/auth-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -72,7 +72,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm run install:all && npm run build:all
-    startCommand: cd services/user-service && NODE_ENV=uat node dist/server.js
+    startCommand: cd services/user-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -92,7 +92,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm run install:all && npm run build:all
-    startCommand: cd services/driver-service && NODE_ENV=uat node dist/server.js
+    startCommand: cd services/driver-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -112,7 +112,7 @@ services:
     env: node
     region: oregon
     buildCommand: npm run install:all && npm run build:all
-    startCommand: cd services/ride-service && NODE_ENV=uat node dist/server.js
+    startCommand: cd services/ride-service && npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
