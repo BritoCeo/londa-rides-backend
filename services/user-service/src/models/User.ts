@@ -11,7 +11,7 @@ export class User implements IUser {
     private email: string | null,
     private phoneNumber: string,
     private userType: UserType,
-    private isVerified: boolean,
+    private _isVerified: boolean,
     private ratings: number,
     private totalRides: number,
     private notificationToken: string | null,
@@ -85,7 +85,7 @@ export class User implements IUser {
   }
 
   public isVerified(): boolean {
-    return this.isVerified;
+    return this._isVerified;
   }
 
   public getRatings(): number {
@@ -110,7 +110,7 @@ export class User implements IUser {
 
   // Business logic methods
   public updateVerificationStatus(verified: boolean): void {
-    this.isVerified = verified;
+    this._isVerified = verified;
     this.updatedAt = new Date();
   }
 

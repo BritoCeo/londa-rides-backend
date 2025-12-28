@@ -20,7 +20,7 @@ export class Ride implements IRide {
     private scheduledTime: Date | null,
     private passengerCount: number,
     private vehicleType: string,
-    private isChildRide: boolean,
+    private _isChildRide: boolean,
     private readonly createdAt: Date,
     private updatedAt: Date
   ) {}
@@ -102,7 +102,7 @@ export class Ride implements IRide {
   public getScheduledTime(): Date | null { return this.scheduledTime; }
   public getPassengerCount(): number { return this.passengerCount; }
   public getVehicleType(): string { return this.vehicleType; }
-  public isChildRide(): boolean { return this.isChildRide; }
+  public isChildRide(): boolean { return this._isChildRide; }
   public getCreatedAt(): Date { return this.createdAt; }
   public getUpdatedAt(): Date { return this.updatedAt; }
 
