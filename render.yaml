@@ -3,7 +3,8 @@ services:
   - type: web
     name: shared-build
     env: node
-    buildCommand: cd shared && npm install && npm run build
+    rootDir: shared
+    buildCommand: npm install && npm run build
     startCommand: echo "Shared package built successfully"
     healthCheckPath: /
     envVars:
@@ -16,11 +17,12 @@ services:
     env: node
     region: oregon
     plan: starter
+    rootDir: services/api-gateway
     buildCommand: |
-      npm install
+      cd ../.. && npm install
       cd shared && npm install && npm run build && cd ..
       cd services/api-gateway && npm install && npm run build
-    startCommand: cd services/api-gateway && npm run start:uat
+    startCommand: npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -56,11 +58,12 @@ services:
     env: node
     region: oregon
     plan: starter
+    rootDir: services/auth-service
     buildCommand: |
-      npm install
+      cd ../.. && npm install
       cd shared && npm install && npm run build && cd ..
       cd services/auth-service && npm install && npm run build
-    startCommand: cd services/auth-service && npm run start:uat
+    startCommand: npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -80,11 +83,12 @@ services:
     env: node
     region: oregon
     plan: starter
+    rootDir: services/user-service
     buildCommand: |
-      npm install
+      cd ../.. && npm install
       cd shared && npm install && npm run build && cd ..
       cd services/user-service && npm install && npm run build
-    startCommand: cd services/user-service && npm run start:uat
+    startCommand: npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -104,11 +108,12 @@ services:
     env: node
     region: oregon
     plan: starter
+    rootDir: services/driver-service
     buildCommand: |
-      npm install
+      cd ../.. && npm install
       cd shared && npm install && npm run build && cd ..
       cd services/driver-service && npm install && npm run build
-    startCommand: cd services/driver-service && npm run start:uat
+    startCommand: npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -128,11 +133,12 @@ services:
     env: node
     region: oregon
     plan: starter
+    rootDir: services/ride-service
     buildCommand: |
-      npm install
+      cd ../.. && npm install
       cd shared && npm install && npm run build && cd ..
       cd services/ride-service && npm install && npm run build
-    startCommand: cd services/ride-service && npm run start:uat
+    startCommand: npm run start:uat
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
