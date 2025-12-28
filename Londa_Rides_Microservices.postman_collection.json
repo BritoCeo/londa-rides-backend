@@ -1,0 +1,722 @@
+{
+  "info": {
+    "name": "Londa Rides - Microservices API Collection",
+    "description": "Complete API collection for Londa Rides microservices architecture. Includes User, Driver, Auth, Ride services and API Gateway endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "user_service_url",
+      "value": "http://localhost:8002",
+      "type": "string"
+    },
+    {
+      "key": "driver_service_url",
+      "value": "http://localhost:8003",
+      "type": "string"
+    },
+    {
+      "key": "auth_service_url",
+      "value": "http://localhost:8001",
+      "type": "string"
+    },
+    {
+      "key": "ride_service_url",
+      "value": "http://localhost:8004",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "driver_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ride_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "API Gateway Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/health",
+              "host": ["{{gateway_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check API Gateway health status"
+          }
+        },
+        {
+          "name": "User Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{user_service_url}}/health",
+              "host": ["{{user_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check User Service health status"
+          }
+        },
+        {
+          "name": "Driver Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{driver_service_url}}/health",
+              "host": ["{{driver_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check Driver Service health status"
+          }
+        },
+        {
+          "name": "Auth Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{auth_service_url}}/health",
+              "host": ["{{auth_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check Auth Service health status"
+          }
+        },
+        {
+          "name": "Ride Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ride_service_url}}/health",
+              "host": ["{{ride_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check Ride Service health status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Service (via Gateway)",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"+264813442539\",\n  \"userType\": \"STUDENT\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users"]
+            },
+            "description": "Create a new user"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.id) {",
+                  "        pm.collectionVariables.set('user_id', jsonData.data.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users/{{user_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users", "{{user_id}}"]
+            },
+            "description": "Get user by ID"
+          }
+        },
+        {
+          "name": "Get User by Phone Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users/phone/:phoneNumber?phoneNumber=+264813442539",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users", "phone", ":phoneNumber"],
+              "query": [
+                {
+                  "key": "phoneNumber",
+                  "value": "+264813442539"
+                }
+              ]
+            },
+            "description": "Get user by phone number"
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users?limit=10&offset=0",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all users with pagination"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\",\n  \"email\": \"john.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users/{{user_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users", "{{user_id}}"]
+            },
+            "description": "Update user by ID"
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/users/{{user_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "users", "{{user_id}}"]
+            },
+            "description": "Delete user by ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Service (Direct)",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phoneNumber\": \"+264813442540\",\n  \"userType\": \"PARENT\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{user_service_url}}/api/v1/users",
+              "host": ["{{user_service_url}}"],
+              "path": ["api", "v1", "users"]
+            },
+            "description": "Create a new user directly through User Service"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{user_service_url}}/api/v1/users/{{user_id}}",
+              "host": ["{{user_service_url}}"],
+              "path": ["api", "v1", "users", "{{user_id}}"]
+            },
+            "description": "Get user by ID directly from User Service"
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{user_service_url}}/api/v1/users?limit=10&offset=0",
+              "host": ["{{user_service_url}}"],
+              "path": ["api", "v1", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all users directly from User Service"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Driver Service (via Gateway)",
+      "item": [
+        {
+          "name": "Create Driver",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Driver Smith\",\n  \"email\": \"driver.smith@example.com\",\n  \"phoneNumber\": \"+264813442541\",\n  \"licenseNumber\": \"DL123456\",\n  \"vehicleType\": \"CAR\",\n  \"vehicleModel\": \"Toyota Corolla\",\n  \"vehiclePlateNumber\": \"ABC-123\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/drivers",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "drivers"]
+            },
+            "description": "Create a new driver"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.id) {",
+                  "        pm.collectionVariables.set('driver_id', jsonData.data.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Driver by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/drivers/{{driver_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "drivers", "{{driver_id}}"]
+            },
+            "description": "Get driver by ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Driver Service (Direct)",
+      "item": [
+        {
+          "name": "Create Driver",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Driver Johnson\",\n  \"email\": \"driver.johnson@example.com\",\n  \"phoneNumber\": \"+264813442542\",\n  \"licenseNumber\": \"DL789012\",\n  \"vehicleType\": \"SUV\",\n  \"vehicleModel\": \"Honda CR-V\",\n  \"vehiclePlateNumber\": \"XYZ-789\"\n}"
+            },
+            "url": {
+              "raw": "{{driver_service_url}}/api/v1/drivers",
+              "host": ["{{driver_service_url}}"],
+              "path": ["api", "v1", "drivers"]
+            },
+            "description": "Create a new driver directly through Driver Service"
+          }
+        },
+        {
+          "name": "Get Driver by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{driver_service_url}}/api/v1/drivers/{{driver_id}}",
+              "host": ["{{driver_service_url}}"],
+              "path": ["api", "v1", "drivers", "{{driver_id}}"]
+            },
+            "description": "Get driver by ID directly from Driver Service"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth Service (via Gateway)",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"+264813442539\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/auth/login",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "Login and get authentication token"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.collectionVariables.set('auth_token', jsonData.data.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"your_refresh_token_here\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/auth/refresh",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "auth", "refresh"]
+            },
+            "description": "Refresh authentication token"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth Service (Direct)",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"+264813442539\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{auth_service_url}}/api/v1/auth/login",
+              "host": ["{{auth_service_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "Login directly through Auth Service"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"your_refresh_token_here\"\n}"
+            },
+            "url": {
+              "raw": "{{auth_service_url}}/api/v1/auth/refresh",
+              "host": ["{{auth_service_url}}"],
+              "path": ["api", "v1", "auth", "refresh"]
+            },
+            "description": "Refresh token directly through Auth Service"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ride Service (via Gateway)",
+      "item": [
+        {
+          "name": "Create Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"childId\": null,\n  \"pickupLocation\": {\n    \"latitude\": -22.5700,\n    \"longitude\": 17.0836,\n    \"address\": \"123 Main Street, Windhoek\",\n    \"name\": \"Pickup Location\"\n  },\n  \"dropoffLocation\": {\n    \"latitude\": -22.5800,\n    \"longitude\": 17.0936,\n    \"address\": \"456 University Road, Windhoek\",\n    \"name\": \"Dropoff Location\"\n  },\n  \"pickupCoordinates\": {\n    \"latitude\": -22.5700,\n    \"longitude\": 17.0836\n  },\n  \"dropoffCoordinates\": {\n    \"latitude\": -22.5800,\n    \"longitude\": 17.0936\n  },\n  \"rideType\": \"standard\",\n  \"estimatedFare\": 13.00,\n  \"passengerCount\": 1,\n  \"vehicleType\": \"Car\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/rides",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "rides"]
+            },
+            "description": "Create a new ride request"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.id) {",
+                  "        pm.collectionVariables.set('ride_id', jsonData.data.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Ride by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/rides/{{ride_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}"]
+            },
+            "description": "Get ride by ID"
+          }
+        },
+        {
+          "name": "Accept Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driverId\": \"{{driver_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/rides/{{ride_id}}/accept",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "accept"]
+            },
+            "description": "Driver accepts a ride"
+          }
+        },
+        {
+          "name": "Start Ride",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/rides/{{ride_id}}/start",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "start"]
+            },
+            "description": "Start a ride"
+          }
+        },
+        {
+          "name": "Complete Ride",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/rides/{{ride_id}}/complete",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "complete"]
+            },
+            "description": "Complete a ride"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ride Service (Direct)",
+      "item": [
+        {
+          "name": "Create Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"childId\": null,\n  \"pickupLocation\": {\n    \"latitude\": -22.5700,\n    \"longitude\": 17.0836,\n    \"address\": \"123 Main Street, Windhoek\",\n    \"name\": \"Pickup Location\"\n  },\n  \"dropoffLocation\": {\n    \"latitude\": -22.5800,\n    \"longitude\": 17.0936,\n    \"address\": \"456 University Road, Windhoek\",\n    \"name\": \"Dropoff Location\"\n  },\n  \"rideType\": \"standard\",\n  \"estimatedFare\": 13.00,\n  \"passengerCount\": 1,\n  \"vehicleType\": \"Car\"\n}"
+            },
+            "url": {
+              "raw": "{{ride_service_url}}/api/v1/rides",
+              "host": ["{{ride_service_url}}"],
+              "path": ["api", "v1", "rides"]
+            },
+            "description": "Create a new ride directly through Ride Service"
+          }
+        },
+        {
+          "name": "Get Ride by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ride_service_url}}/api/v1/rides/{{ride_id}}",
+              "host": ["{{ride_service_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}"]
+            },
+            "description": "Get ride by ID directly from Ride Service"
+          }
+        },
+        {
+          "name": "Accept Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driverId\": \"{{driver_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{ride_service_url}}/api/v1/rides/{{ride_id}}/accept",
+              "host": ["{{ride_service_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "accept"]
+            },
+            "description": "Accept ride directly through Ride Service"
+          }
+        },
+        {
+          "name": "Start Ride",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{ride_service_url}}/api/v1/rides/{{ride_id}}/start",
+              "host": ["{{ride_service_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "start"]
+            },
+            "description": "Start ride directly through Ride Service"
+          }
+        },
+        {
+          "name": "Complete Ride",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{ride_service_url}}/api/v1/rides/{{ride_id}}/complete",
+              "host": ["{{ride_service_url}}"],
+              "path": ["api", "v1", "rides", "{{ride_id}}", "complete"]
+            },
+            "description": "Complete ride directly through Ride Service"
+          }
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,35 @@
+{
+  "name": "@londa-rides/auth-service",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:uat": "cross-env NODE_ENV=uat ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:prd": "cross-env NODE_ENV=prd ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:dev": "cross-env NODE_ENV=dev node dist/server.js",
+    "start:uat": "cross-env NODE_ENV=uat node dist/server.js",
+    "start:prd": "cross-env NODE_ENV=prd node dist/server.js"
+  },
+  "dependencies": {
+    "@londa-rides/shared": "file:../../shared",
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^3.0.2",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/bcryptjs": "^2.4.6",
+    "typescript": "^5.5.4",
+    "ts-node-dev": "^2.0.0",
+    "cross-env": "^7.0.3"
+  }
+}
+

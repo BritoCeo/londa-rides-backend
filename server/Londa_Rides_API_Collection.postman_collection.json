@@ -1,0 +1,1136 @@
+{
+  "info": {
+    "name": "Londa Rides API Collection",
+    "description": "Complete API collection for Londa Rides CC - Ride sharing platform with driver subscription management",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "driver_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ride_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/test",
+              "host": ["{{base_url}}"],
+              "path": ["test"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"+264813442530\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/registration",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "registration"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"+264813442530\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "verify-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone_number\": \"+264813442530\",\n  \"userType\": \"student\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/create-account",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "create-account"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Driver Subscription Management",
+      "item": [
+        {
+          "name": "Create Driver Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driver_id\": \"{{driver_id}}\",\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/subscription",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "subscription"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Driver Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/subscription/{{driver_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "subscription", "{{driver_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Driver Subscription",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"auto_renew\": true,\n  \"payment_method\": \"cash\",\n  \"notification_preferences\": {\n    \"email\": true,\n    \"sms\": true,\n    \"push\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/subscription/{{driver_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "subscription", "{{driver_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Process Subscription Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driver_id\": \"{{driver_id}}\",\n  \"payment_method\": \"cash\",\n  \"amount\": 150.00\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/subscription/payment",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "subscription", "payment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Driver Subscription History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/subscription/history/{{driver_id}}?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "subscription", "history", "{{driver_id}}"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ride Management",
+      "item": [
+        {
+          "name": "Request Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"pickup_location\": {\n    \"latitude\": -22.5609,\n    \"longitude\": 17.0658,\n    \"name\": \"Windhoek Central\"\n  },\n  \"dropoff_location\": {\n    \"latitude\": -22.5709,\n    \"longitude\": 17.0758,\n    \"name\": \"University of Namibia\"\n  },\n  \"ride_type\": \"standard\",\n  \"estimated_fare\": 13.00\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/request-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "request-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Nearby Drivers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/nearby-drivers?latitude=-22.5609&longitude=17.0658&radius=5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "nearby-drivers"],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "-22.5609"
+                },
+                {
+                  "key": "longitude",
+                  "value": "17.0658"
+                },
+                {
+                  "key": "radius",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"user_id\": \"{{user_id}}\",\n  \"reason\": \"Change of plans\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/cancel-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cancel-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Rate Ride",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"user_id\": \"{{user_id}}\",\n  \"rating\": 5,\n  \"review\": \"Great driver, very professional!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/rate-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "rate-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Available Rides (Driver)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/available-rides/{{driver_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "available-rides", "{{driver_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Accept Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"driver_id\": \"{{driver_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/accept-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "accept-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Decline Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"driver_id\": \"{{driver_id}}\",\n  \"reason\": \"Too far from current location\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/decline-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "decline-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Start Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"driver_id\": \"{{driver_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/start-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "start-ride"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"driver_id\": \"{{driver_id}}\",\n  \"final_fare\": 13.00\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/complete-ride",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "complete-ride"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Management",
+      "item": [
+        {
+          "name": "Calculate Fare",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pickup_location\": {\n    \"latitude\": -22.5609,\n    \"longitude\": 17.0658\n  },\n  \"dropoff_location\": {\n    \"latitude\": -22.5709,\n    \"longitude\": 17.0758\n  },\n  \"ride_type\": \"standard\",\n  \"distance_km\": 5.2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/calculate-fare",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "calculate-fare"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Process Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"user_id\": \"{{user_id}}\",\n  \"amount\": 13.00,\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/process",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "process"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/history?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "history"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Location & Tracking",
+      "item": [
+        {
+          "name": "Update Location",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"latitude\": -22.5609,\n  \"longitude\": 17.0658,\n  \"type\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/update-location",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "update-location"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ride Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/ride-status/{{ride_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ride-status", "{{ride_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Track Ride",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ride_id\": \"{{ride_id}}\",\n  \"user_id\": \"{{user_id}}\",\n  \"driver_id\": \"{{driver_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ride-tracking",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "ride-tracking"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Send Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipient_id\": \"{{user_id}}\",\n  \"recipient_type\": \"user\",\n  \"title\": \"Ride Request\",\n  \"message\": \"Your ride request has been accepted\",\n  \"data\": {\n    \"ride_id\": \"{{ride_id}}\",\n    \"driver_name\": \"John Driver\"\n  },\n  \"type\": \"ride_update\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/send",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "send"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notification_id\": \"notification_123\",\n  \"recipient_id\": \"{{user_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "read"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile Management",
+      "item": [
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"profile_data\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone_number\": \"+264811234567\",\n    \"address\": \"123 Main Street, Windhoek\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/update-profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "update-profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driver_id\": \"{{driver_id}}\",\n  \"document_type\": \"license\",\n  \"document_url\": \"https://example.com/license.pdf\",\n  \"document_name\": \"Driver License\",\n  \"expiry_date\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/upload-document",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "upload-document"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents?driver_id={{driver_id}}&document_type=license",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents"],
+              "query": [
+                {
+                  "key": "driver_id",
+                  "value": "{{driver_id}}"
+                },
+                {
+                  "key": "document_type",
+                  "value": "license"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics & Reports",
+      "item": [
+        {
+          "name": "Get Driver Earnings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/earnings?driver_id={{driver_id}}&period=week",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "analytics", "earnings"],
+              "query": [
+                {
+                  "key": "driver_id",
+                  "value": "{{driver_id}}"
+                },
+                {
+                  "key": "period",
+                  "value": "week"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Ride Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/rides?user_id={{user_id}}&period=month",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "analytics", "rides"],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                },
+                {
+                  "key": "period",
+                  "value": "month"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Performance Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/performance?driver_id={{driver_id}}&period=month",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "analytics", "performance"],
+              "query": [
+                {
+                  "key": "driver_id",
+                  "value": "{{driver_id}}"
+                },
+                {
+                  "key": "period",
+                  "value": "month"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Driver Management",
+      "item": [
+        {
+          "name": "Register Driver",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"+264813442530\",\n  \"name\": \"John Driver\",\n  \"email\": \"john.driver@example.com\",\n  \"license_number\": \"DL123456789\",\n  \"vehicle_type\": \"Car\",\n  \"vehicle_model\": \"Toyota Corolla\",\n  \"vehicle_year\": 2020,\n  \"vehicle_color\": \"White\",\n  \"vehicle_plate\": \"NA12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/registration",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "registration"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Driver Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/profile/{{driver_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "profile", "{{driver_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Driver Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driver_id\": \"{{driver_id}}\",\n  \"status\": \"online\",\n  \"latitude\": -22.5609,\n  \"longitude\": 17.0658\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/driver/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "driver", "status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get User Rides",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/get-rides?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "get-rides"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subscribe Monthly",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"subscription_type\": \"monthly\",\n  \"amount\": 1000.00,\n  \"payment_method\": \"cash\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscribe-monthly",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "subscribe-monthly"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/rides?user_id={{user_id}}&period=month",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "analytics", "rides"],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                },
+                {
+                  "key": "period",
+                  "value": "month"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-set variables from responses",
+          "if (pm.response && pm.response.json) {",
+          "    const response = pm.response.json();",
+          "    if (response.data && response.data.user) {",
+          "        pm.environment.set('user_id', response.data.user.id);",
+          "    }",
+          "    if (response.data && response.data.driver) {",
+          "        pm.environment.set('driver_id', response.data.driver.id);",
+          "    }",
+          "    if (response.data && response.data.ride) {",
+          "        pm.environment.set('ride_id', response.data.ride.id);",
+          "    }",
+          "    if (response.data && response.data.token) {",
+          "        pm.environment.set('auth_token', response.data.token);",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ]
+}

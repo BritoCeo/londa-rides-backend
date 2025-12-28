@@ -1,0 +1,33 @@
+{
+  "name": "londa-rides-backend",
+  "version": "1.0.0",
+  "description": "Londa Rides Backend - Microservices Architecture",
+  "scripts": {
+    "install:all": "npm install && cd shared && npm install && cd .. && cd services/user-service && npm install && cd ../driver-service && npm install && cd ../auth-service && npm install && cd ../ride-service && npm install && cd ../api-gateway && npm install && cd ../..",
+    "build:shared": "cd shared && npm run build",
+    "build:all": "npm run build:shared && cd services/user-service && npm run build && cd ../driver-service && npm run build && cd ../auth-service && npm run build && cd ../ride-service && npm run build && cd ../api-gateway && npm run build",
+    "dev:user": "cd services/user-service && npm run dev",
+    "dev:driver": "cd services/driver-service && npm run dev",
+    "dev:auth": "cd services/auth-service && npm run dev",
+    "dev:ride": "cd services/ride-service && npm run dev",
+    "dev:gateway": "cd services/api-gateway && npm run dev",
+    "dev:all": "concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"npm run dev:user\" \"npm run dev:driver\" \"npm run dev:auth\" \"npm run dev:ride\" \"npm run dev:gateway\"",
+    "dev:all:dev": "cross-env NODE_ENV=dev concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:dev\" \"cd services/driver-service && npm run dev:dev\" \"cd services/auth-service && npm run dev:dev\" \"cd services/ride-service && npm run dev:dev\" \"cd services/api-gateway && npm run dev:dev\"",
+    "dev:all:uat": "cross-env NODE_ENV=uat concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:uat\" \"cd services/driver-service && npm run dev:uat\" \"cd services/auth-service && npm run dev:uat\" \"cd services/ride-service && npm run dev:uat\" \"cd services/api-gateway && npm run dev:uat\"",
+    "dev:all:prd": "cross-env NODE_ENV=prd concurrently -n \"USER,DRIVER,AUTH,RIDE,GATEWAY\" -c \"blue,green,yellow,red,magenta\" \"cd services/user-service && npm run dev:prd\" \"cd services/driver-service && npm run dev:prd\" \"cd services/auth-service && npm run dev:prd\" \"cd services/ride-service && npm run dev:prd\" \"cd services/api-gateway && npm run dev:prd\"",
+    "test:shared": "cd shared && npm test",
+    "clean": "cd shared && npm run clean && cd ../services/user-service && rm -rf dist && cd ../driver-service && rm -rf dist && cd ../auth-service && rm -rf dist && cd ../ride-service && rm -rf dist && cd ../api-gateway && rm -rf dist"
+  },
+  "keywords": [
+    "microservices",
+    "ride-sharing",
+    "backend"
+  ],
+  "author": "Londa Rides",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
+  }
+}
+

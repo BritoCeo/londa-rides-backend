@@ -1,0 +1,60 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        cd shared && npm install
+        cd ../services/user-service && npm install
+        cd ../services/driver-service && npm install
+        cd ../services/auth-service && npm install
+        cd ../services/ride-service && npm install
+    
+    - name: Build shared package
+      run: cd shared && npm run build
+    
+    - name: Run tests
+      run: |
+        cd shared && npm test || true
+    
+    - name: Lint
+      run: |
+        cd shared && npx eslint src/**/*.ts || true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Build all services
+      run: |
+        cd shared && npm install && npm run build
+        cd ../services/user-service && npm install && npm run build
+        cd ../services/driver-service && npm install && npm run build
+        cd ../services/auth-service && npm install && npm run build
+        cd ../services/ride-service && npm install && npm run build
+

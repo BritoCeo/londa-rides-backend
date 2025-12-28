@@ -1,0 +1,42 @@
+{
+  "name": "@londa-rides/user-service",
+  "version": "1.0.0",
+  "description": "User management microservice",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:dev": "cross-env NODE_ENV=dev ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:uat": "cross-env NODE_ENV=uat ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:prd": "cross-env NODE_ENV=prd ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:dev": "cross-env NODE_ENV=dev node dist/server.js",
+    "start:uat": "cross-env NODE_ENV=uat node dist/server.js",
+    "start:prd": "cross-env NODE_ENV=prd node dist/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@londa-rides/shared": "file:../../shared",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^4.19.2",
+    "express-validator": "^7.2.1",
+    "firebase-admin": "^13.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
+  }
+}
