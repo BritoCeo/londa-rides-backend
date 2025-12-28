@@ -11,7 +11,7 @@ This guide explains how to deploy the Londa Rides backend microservices to Rende
 
 ## Deployment Options
 
-### Option 1: Using render.yaml (Recommended)
+### Option 1: Using Blueprint with render.yaml (Recommended)
 
 The repository includes a `render.yaml` file that automatically configures all services.
 
@@ -20,24 +20,72 @@ The repository includes a `render.yaml` file that automatically configures all s
 1. **Connect Repository to Render**:
    - Go to [Render Dashboard](https://dashboard.render.com)
    - Click "New +" → "Blueprint"
-   - Connect your GitHub repository: `BritoCeo/londa-rides-backend`
-   - Render will automatically detect `render.yaml`
+   - Select "Public Git Repository" tab
+   - Enter repository URL: `https://github.com/BritoCeo/londa-rides-backend`
+   - Click "Connect"
+   - Render will automatically detect `render.yaml` and show all 5 services
 
-2. **Configure Environment Variables**:
-   - After connecting, Render will show all services
-   - For each service, add the required environment variables (see below)
+2. **Review Services**:
+   - Render will display all services from `render.yaml`:
+     - shared-build
+     - api-gateway
+     - auth-service
+     - user-service
+     - driver-service
+     - ride-service
 
-3. **Deploy**:
-   - Click "Apply" to deploy all services
-   - Render will build and deploy all 5 services automatically
+3. **Configure Environment Variables**:
+   - For each service, you'll need to add environment variables:
+     - **Auth Service**: Set `JWT_SECRET` (required)
+     - **User/Driver/Ride Services**: Set `FIREBASE_SERVICE_ACCOUNT_KEY` (JSON content) and `FIREBASE_PROJECT_ID`
+   - Service URLs for API Gateway are automatically set by Render
 
-### Option 2: Manual Service Creation
+4. **Deploy**:
+   - Click "Apply" at the bottom
+   - Render will build and deploy all services automatically
+   - Monitor the build logs for each service
 
-If you prefer to create services manually:
+### Option 2: Manual Web Service Creation
 
-1. Create each service individually
-2. Use the build and start commands from `render.yaml`
-3. Configure environment variables manually
+If you prefer to create services manually (one at a time):
+
+#### For API Gateway:
+
+1. **Create Web Service**:
+   - Click "New +" → "Web Service"
+   - Select "Public Git Repository" tab
+   - Enter: `https://github.com/BritoCeo/londa-rides-backend`
+   - Click "Connect"
+
+2. **Configure Service**:
+   - **Name**: `api-gateway`
+   - **Region**: `Oregon` (or your preferred)
+   - **Branch**: `main`
+   - **Root Directory**: (leave empty)
+   - **Runtime**: `Node`
+   - **Build Command**:
+     ```bash
+     npm install
+     cd shared && npm install && npm run build && cd ..
+     cd services/api-gateway && npm install && npm run build
+     ```
+   - **Start Command**:
+     ```bash
+     cd services/api-gateway && npm run start:uat
+     ```
+
+3. **Environment Variables**:
+   - `NODE_ENV` = `uat`
+   - `PORT` = `8000`
+   - `LOG_LEVEL` = `info`
+   - `USER_SERVICE_URL` = (set after user-service is deployed)
+   - `DRIVER_SERVICE_URL` = (set after driver-service is deployed)
+   - `AUTH_SERVICE_URL` = (set after auth-service is deployed)
+   - `RIDE_SERVICE_URL` = (set after ride-service is deployed)
+
+4. **Click "Create Web Service"**
+
+5. **Repeat for other services** (auth-service, user-service, driver-service, ride-service) with their respective configurations from `render.yaml`
 
 ## Environment Variables
 
